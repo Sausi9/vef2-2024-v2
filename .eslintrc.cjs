@@ -11,6 +11,7 @@ module.exports = {
   rules: {
     'no-restricted-syntax': 0,
     'import/prefer-default-export': 0,
+    'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 0,
     'no-param-reassign': 0,
     quotes: ['error', 'single'],
@@ -29,6 +30,6 @@ module.exports = {
         ignoreComments: true,
         ignoreTemplateLiterals: true,
       },
-    ],
+    ]
   },
 };

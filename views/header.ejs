@@ -13,7 +13,7 @@
     <h1><%= locals.title ?? '' %></h1>
 
     <% if (locals.loggedIn) { %>
-      <p>Innsrkáður notandi: <%= locals.user.name %> (<%= locals.user.username %>)
+      <p>Innskráður notandi: <%= locals.user.name %> (<%= locals.user.username %>)
     <% } else { %>
       <p>Þú ert ekki innskráður notandi.</p>
     <% } %>

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import pg from 'pg';
 import { environment } from './environment.js';
 import { logger } from './logger.js';

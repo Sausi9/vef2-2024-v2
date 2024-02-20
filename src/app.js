@@ -4,12 +4,11 @@ import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { adminRouter } from './routes/admin-routes.js';
 import { environment } from './lib/environment.js';
 import { handler404, handlerError } from './lib/handlers.js';
 import { logger } from './lib/logger.js';
-import { adminRouter } from './routes/admin-routes.js';
 import { indexRouter } from './routes/index-routes.js';
-
 import { comparePasswords, findById, findByUsername } from './lib/users.js';
 
 const env = environment(process.env, logger);
@@ -65,8 +64,13 @@ async function strat(username, password, done) {
 passport.use(new Strategy(strat));
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  if ('id' in user) {
+    done(null, user.id);
+  } else {
+    done(new Error('User object does not have an id property'));
+  }
 });
+
 
 // Sækir notanda út frá id
 passport.deserializeUser(async (id, done) => {

@@ -5,7 +5,7 @@
  * hér, ásamt því að passa upp á að lykilorð séu lögleg.
  */
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt'; // eslint-disable-line
 
 const records = [
   {

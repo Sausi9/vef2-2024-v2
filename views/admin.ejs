@@ -1,5 +1,10 @@
 <%- include('header') -%>
 
-admin!
+<% if (loggedIn) { %>
+  <form action="/logout" method="get">
+    <button type="submit">Skrá út</button>
+  </form>
+<% } %>
+
 
 <%- include('footer') -%>
