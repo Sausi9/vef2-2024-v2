@@ -1,5 +1,5 @@
 import express from 'express';
-import { getGames } from '../lib/db.js';
+import { getGames, getStandings} from '../lib/db.js';
 
 export const indexRouter = express.Router();
 
@@ -21,8 +21,10 @@ async function leikirRoute(req, res) {
 }
 
 async function stadaRoute(req, res) {
+  const standings = await getStandings();
   return res.render('stada', {
     title: 'Staðan',
+    standings,
   });
 }
 

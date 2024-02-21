@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import { insertGame } from '../lib/db.js';
+import {  getGames,insertGame } from '../lib/db.js';
 
 export const adminRouter = express.Router();
 
@@ -13,13 +13,16 @@ async function indexRoute(req, res) {
 async function adminRoute(req, res) {
   const user = req.user ?? null;
   const loggedIn = req.isAuthenticated();
+  const games = await getGames();
 
   return res.render('admin', {
     title: 'Admin upplýsingar, mjög leynilegt',
     user,
     loggedIn,
+    games,
   });
 }
+
 
 // TODO færa á betri stað
 // Hjálpar middleware sem athugar hvort notandi sé innskráður og hleypir okkur
@@ -32,6 +35,15 @@ function ensureLoggedIn(req, res, next) {
   return res.redirect('/login');
 }
 
+function ensureAdmin(req, res, next) {
+  if (req.isAuthenticated() && req.user.admin) {
+    return next();
+  }
+  // Redirect or show an error if the user is not an admin
+  return res.status(403).send('Access Denied: Admins only.');
+}
+
+
 function skraRoute(req, res, next) {
   return res.render('skra', {
     title: 'Skrá leik',
@@ -40,15 +52,15 @@ function skraRoute(req, res, next) {
 
 function skraRouteInsert(req, res, next) {
   // TODO mjög hrátt allt saman, vantar validation!
-  const { home_name, home_score, away_name, away_score } = req.body;
+  const { homeName, homeScore, awayName, awayScore } = req.body;
 
-  const result = insertGame(home_name, home_score, away_name, away_score);
+  const result = insertGame(homeName, homeScore, awayName, awayScore);
 
   res.redirect('/leikir');
 }
 
 adminRouter.get('/login', indexRoute);
-adminRouter.get('/admin', ensureLoggedIn, adminRoute);
+adminRouter.get('/admin', ensureLoggedIn,ensureAdmin, adminRoute);
 adminRouter.get('/skra', skraRoute);
 adminRouter.post('/skra', skraRouteInsert);
 

@@ -7,4 +7,40 @@
 <% } %>
 
 
+<!-- Display Games Table -->
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Home Team</th>
+      <th>Home Score</th>
+      <th>Away Team</th>
+      <th>Away Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% games.forEach(function(game) { %>
+      <tr>
+        <td><%= game.date %></td>
+        <td><%= game.home.name %></td>
+        <td><%= game.home.score %></td>
+        <td><%= game.away.name %></td>
+        <td><%= game.away.score %></td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<!-- Insert Game Form (visible only to admins) -->
+<% if (user && user.admin) { %>
+  <form action="/skra" method="post">
+    <!-- Form fields for inserting a new game -->
+    <input type="text" name="homeName" placeholder="Home Team" required />
+    <input type="number" name="homeScore" placeholder="Home Score" required />
+    <input type="text" name="awayName" placeholder="Away Team" required />
+    <input type="number" name="awayScore" placeholder="Away Score" required />
+    <button type="submit">Insert Game</button>
+  </form>
+<% } %>
+
 <%- include('footer') -%>

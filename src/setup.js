@@ -1,9 +1,35 @@
+import { readFile } from 'fs/promises';
 import { query } from './lib/db.js';
 
-async function main() {
-  const games = await query('select * from games');
+async function dropTable() {
+  const data = await readFile('./src/sql/drop.sql');
+  await query(data.toString('utf-8'));
+}
 
-  console.log(games);
+async function schema() {
+  const data = await readFile('./src/sql/schema.sql');
+  await query(data.toString('utf-8'));
+}
+
+async function insertData() {
+  const data = await readFile('./src/sql/insert.sql');
+  await query(data.toString('utf-8'));
+}
+
+async function setup() {
+  await dropTable();
+  await schema();
+  await insertData();
+}
+
+// drop schema insert
+// lest inn skrána schema, readfile
+// insert query(data.toString('utf-8'))
+
+async function main() {
+  // const games = await query('select * from games');
+  // console.log(games);
+  setup();
 }
 
 main().catch((e) => console.error(e));

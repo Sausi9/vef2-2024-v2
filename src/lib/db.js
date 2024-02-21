@@ -10,7 +10,6 @@ if (!env?.connectionString) {
 }
 
 const { connectionString } = env;
-
 const pool = new pg.Pool({ connectionString });
 
 pool.on('error', (err) => {
@@ -53,6 +52,8 @@ export async function getGames() {
       teams AS home_team ON home_team.id = games.home
     LEFT JOIN
       teams AS away_team ON away_team.id = games.away
+    ORDER BY
+      date DESC
   `;
 
   const result = await query(q);
@@ -76,7 +77,35 @@ export async function getGames() {
 
     return games;
   }
+  return games;
 }
+export async function getStandings() {
+  const games = await getGames();
+  const standings = {};
+
+  games.forEach((game) => {
+    const { home, away } = game;
+    if (!standings[home.name]) standings[home.name] = { points: 0 };
+    if (!standings[away.name]) standings[away.name] = { points: 0 };
+
+    if (home.score > away.score) {
+      standings[home.name].points += 3;
+    } else if (home.score < away.score) {
+      standings[away.name].points += 3;
+    } else { // Tie
+      standings[home.name].points += 1;
+      standings[away.name].points += 1;
+    }
+  });
+
+  const sortedStandings = Object.keys(standings).map(team => ({
+    name: team,
+    points: standings[team].points
+  })).sort((a, b) => b.points - a.points);
+
+  return sortedStandings;
+}
+
 
 export function insertGame(home_name, home_score, away_name, away_score) {
   const q =
