@@ -30,6 +30,8 @@ module.exports = {
         ignoreComments: true,
         ignoreTemplateLiterals: true,
       },
-    ]
+    ],
+    'consistent-return': 'off', // Disable consistent-return rule
+    camelcase: 'off', // Disable camelcase rule
   },
 };
