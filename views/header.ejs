@@ -22,4 +22,7 @@
       <li><a href="/">Forsíða</a></li>
       <li><a href="/leikir">Leikir</a></li>
       <li><a href="/stada">Staða</a></li>
+      <% if (locals.loggedIn && locals.user.admin) { %>
+        <li><a href="/admin">Umsjónarsíða</a></li>
+      <% } %>
     </ul>

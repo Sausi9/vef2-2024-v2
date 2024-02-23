@@ -69,7 +69,8 @@ INSERT INTO games (date, home, away, home_score, away_score) VALUES ('2024-02-23
 INSERT INTO games (date, home, away, home_score, away_score) VALUES ('2024-02-23T15:20:53.955Z', 8, 7, 1, 1);
 INSERT INTO games (date, home, away, home_score, away_score) VALUES ('2024-02-23T15:20:53.955Z', 9, 12, 0, 4);
 
-INSERT INTO users (username, password, admin) VALUES ('sausi', '123', true);
-INSERT INTO users (username, password, admin) VALUES ('hanna', 'lol', false);
-INSERT INTO users (username, password, admin) VALUES ('sandy', 'mommy', true);
+INSERT INTO users (username, password, admin) VALUES ('sausi', '$2a$11$pgj3.zySyFOvIQEpD7W6Aund1Tw.BFarXxgLJxLbrzIv/4Nteisii', true);
+INSERT INTO users (username, password, admin) VALUES ('hanna', '$2a$11$pgj3.zySyFOvIQEpD7W6Aund1Tw.BFarXxgLJxLbrzIv/4Nteisii', false);
+INSERT INTO users (username, password, admin) VALUES ('sandy', '$2a$11$pgj3.zySyFOvIQEpD7W6Aund1Tw.BFarXxgLJxLbrzIv/4Nteisii', true);
+INSERT INTO users (username, password, admin) VALUES ('oli', '$2a$11$pgj3.zySyFOvIQEpD7W6Aund1Tw.BFarXxgLJxLbrzIv/4Nteisii', false);
 

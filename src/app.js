@@ -10,6 +10,7 @@ import { handler404, handlerError } from './lib/handlers.js';
 import { logger } from './lib/logger.js';
 import { indexRouter } from './routes/index-routes.js';
 import { comparePasswords, findById, findByUsername } from './lib/users.js';
+import { testDbConnection } from './lib/db.js';
 
 const env = environment(process.env, logger);
 
@@ -44,16 +45,20 @@ app.use(session(sessionOptions));
  * @param {function} done Fall sem kallað er í með niðurstöðu
  */
 async function strat(username, password, done) {
+  console.log(`Authenticating user: ${username}`);
   try {
     const user = await findByUsername(username);
-
     if (!user) {
-      return done(null, false);
+      console.log('User not found');
+      return done(null, false); // User not found
     }
-
-    // Verður annað hvort notanda hlutur ef lykilorð rétt, eða false
     const result = await comparePasswords(password, user);
-    return done(null, result);
+    if (!result) {
+      console.log('Incorrect password');
+      return done(null, false); // Incorrect password
+    }
+    console.log('User authenticated successfully');
+    return done(null, user); // Success
   } catch (err) {
     console.error(err);
     return done(err);
@@ -95,3 +100,17 @@ app.use(handlerError);
 app.listen(port, () => {
   console.info(`🚀 Server running at http://localhost:${port}/`);
 });
+
+// Adjust the import path as necessary
+async function init() {
+  const isConnected = await testDbConnection();
+  if (isConnected) {
+    console.log('Database connection established successfully.');
+    // Proceed with the rest of the application initialization
+  } else {
+    console.error('Failed to establish database connection. Exiting application.');
+    process.exit(1); // Exit the application if the database connection fails
+  }
+}
+
+init();

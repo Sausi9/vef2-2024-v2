@@ -107,13 +107,47 @@ export async function getStandings() {
 }
 
 
-export function insertGame(home_name, home_score, away_name, away_score) {
-  const q =
-    'insert into games (home, away, home_score, away_score) values ($1, $2, $3, $4);';
-
-  const result = query(q, [home_name, home_score, away_name, away_score]);
+export async function getTeams() {
+  const q = 'SELECT id,name FROM teams ORDER BY name';
+  const result = await query(q);
+  return result.rows;
 }
+
+export async function insertGame(date, homeTeamId, awayTeamId, homeScore, awayScore) {
+  const q = 'INSERT INTO games (date, home, away, home_score, away_score) VALUES ($1, $2, $3, $4, $5);';
+  await query(q, [date, homeTeamId, awayTeamId, homeScore, awayScore]);
+}
+
+
 
 export async function end() {
   await pool.end();
 }
+
+
+
+export async function getTeamById(teamId) {
+  const q = 'SELECT id FROM teams WHERE id = $1;';
+  const result = await query(q, [teamId]);
+  if (result.rows.length > 0) {
+    // @ts-ignore
+    return result.rows[0].id;
+  }
+    throw new Error(`Team not found with ID: ${teamId}`);
+
+}
+
+
+
+
+export async function testDbConnection() {
+  try {
+    const result = await pool.query('SELECT 1 AS number;');
+    console.log('Database connection test successful:', result.rows[0]);
+    return true;
+  } catch (err) {
+    console.error('Database connection test failed:', err);
+    return false;
+  }
+}
+

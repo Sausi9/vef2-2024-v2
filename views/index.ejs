@@ -1,9 +1,17 @@
 <%- include('header') -%>
 
-<section>
-  <h2>Umsjónarsíða</h2>
-  <p>Innskráningar krafið til að eiga við gögn:</p>
-  <p><a href="/admin">Innskrá</a></p>
-</section>
+<% if (!loggedIn) { %>
+  <section>
+    <p>Innskráningar krafið til að eiga við gögn:</p>
+    <p><a href="/admin">Innskrá</a></p>
+  </section>
+<% } %>
+
+
+<% if (loggedIn) { %>
+  <form action="/logout" method="get">
+    <button type="submit">Skrá út</button>
+  </form>
+<% } %>
 
 <%- include('footer') -%>

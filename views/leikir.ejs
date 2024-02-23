@@ -3,22 +3,26 @@
 <h1>Seinustu leikir</h1>
 
 <table>
-  <th>
-    <td>Dagsetning</td>
-    <td>Heima lið</td>
-    <td>Heima lið skor</td>
-    <td>Útilið</td>
-    <td>Útilið skor</td>
-  </th>
-<% for (const game of locals.games) { %>
-  <tr>
-    <td><%= game.date %></td>
-    <td><%= game.home.name %></td>
-    <td><%= game.home.score %></td>
-    <td><%= game.away.name %></td>
-    <td><%= game.away.score %></td>
-  </tr>
-<% } %>
+  <thead>
+    <tr>
+      <th>Dagsetning</th>
+      <th>Heima lið</th>
+      <th>Heima lið skor</th>
+      <th>Útilið</th>
+      <th>Útilið skor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (const game of locals.games) { %>
+      <tr>
+        <td><%= game.date %></td>
+        <td><%= game.home.name %></td>
+        <td><%= game.home.score %></td>
+        <td><%= game.away.name %></td>
+        <td><%= game.away.score %></td>
+      </tr>
+    <% } %>
+  </tbody>
 </table>
 
 <%- include('footer') -%>

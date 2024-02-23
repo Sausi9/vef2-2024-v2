@@ -6,8 +6,45 @@
   </form>
 <% } %>
 
+<form method="post" action="/admin/skra" class="admin-form">
 
-<!-- Display Games Table -->
+  <% if (typeof(errors) !== 'undefined' && errors.length > 0) { %>
+    <div class="error-messages">
+      <% errors.forEach(function(error) { %>
+        <p><%= error.msg %></p>
+      <% }); %>
+    </div>
+  <% } %>
+
+
+  <div>
+    <label for="game_date">Dagsetning</label>
+    <input type="date" id="game_date" name="date" required>
+  </div>
+  <!-- Home Team -->
+<select id="home_team" name="home_team" required>
+  <% locals.teams.forEach(function(team) { %>
+    <option value="<%- team.id %>"><%- team.name %></option>
+  <% }); %>
+</select>
+
+<!-- Home Score -->
+<input type="number" id="home_score" name="home_score" min="0" max="99" required>
+
+<!-- Away Team -->
+<select id="away_team" name="away_team" required>
+  <% locals.teams.forEach(function(team) { %>
+    <option value="<%- team.id %>"><%- team.name %></option>
+  <% }); %>
+</select>
+
+<!-- Away Score -->
+<input type="number" id="away_score" name="away_score" min="0" max="99" required>
+  <button type="submit">Skrá leik</button>
+</form>
+
+
+
 <table>
   <thead>
     <tr>
@@ -31,16 +68,5 @@
   </tbody>
 </table>
 
-<!-- Insert Game Form (visible only to admins) -->
-<% if (user && user.admin) { %>
-  <form action="/skra" method="post">
-    <!-- Form fields for inserting a new game -->
-    <input type="text" name="homeName" placeholder="Home Team" required />
-    <input type="number" name="homeScore" placeholder="Home Score" required />
-    <input type="text" name="awayName" placeholder="Away Team" required />
-    <input type="number" name="awayScore" placeholder="Away Score" required />
-    <button type="submit">Insert Game</button>
-  </form>
-<% } %>
 
 <%- include('footer') -%>
