@@ -10,7 +10,6 @@ import { handler404, handlerError } from './lib/handlers.js';
 import { logger } from './lib/logger.js';
 import { indexRouter } from './routes/index-routes.js';
 import { comparePasswords, findById, findByUsername } from './lib/users.js';
-import { testDbConnection } from './lib/db.js';
 
 const env = environment(process.env, logger);
 

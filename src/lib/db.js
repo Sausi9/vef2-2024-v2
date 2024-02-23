@@ -124,30 +124,3 @@ export async function end() {
   await pool.end();
 }
 
-
-
-export async function getTeamById(teamId) {
-  const q = 'SELECT id FROM teams WHERE id = $1;';
-  const result = await query(q, [teamId]);
-  if (result.rows.length > 0) {
-    // @ts-ignore
-    return result.rows[0].id;
-  }
-    throw new Error(`Team not found with ID: ${teamId}`);
-
-}
-
-
-
-
-export async function testDbConnection() {
-  try {
-    const result = await pool.query('SELECT 1 AS number;');
-    console.log('Database connection test successful:', result.rows[0]);
-    return true;
-  } catch (err) {
-    console.error('Database connection test failed:', err);
-    return false;
-  }
-}
-
