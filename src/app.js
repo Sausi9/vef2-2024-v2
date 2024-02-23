@@ -101,16 +101,4 @@ app.listen(port, () => {
   console.info(`🚀 Server running at http://localhost:${port}/`);
 });
 
-// Adjust the import path as necessary
-async function init() {
-  const isConnected = await testDbConnection();
-  if (isConnected) {
-    console.log('Database connection established successfully.');
-    // Proceed with the rest of the application initialization
-  } else {
-    console.error('Failed to establish database connection. Exiting application.');
-    process.exit(1); // Exit the application if the database connection fails
-  }
-}
 
-init();

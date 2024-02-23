@@ -16,32 +16,42 @@
     </div>
   <% } %>
 
-
   <div>
     <label for="game_date">Dagsetning</label>
     <input type="date" id="game_date" name="date" required>
   </div>
-  <!-- Home Team -->
-<select id="home_team" name="home_team" required>
-  <% locals.teams.forEach(function(team) { %>
-    <option value="<%- team.id %>"><%- team.name %></option>
-  <% }); %>
-</select>
 
-<!-- Home Score -->
-<input type="number" id="home_score" name="home_score" min="0" max="99" required>
+  <div>
+    <label for="home_team">Heimalið</label>
+    <select id="home_team" name="home_team" required>
+      <% locals.teams.forEach(function(team) { %>
+        <option value="<%- team.id %>"><%- team.name %></option>
+      <% }); %>
+    </select>
+  </div>
 
-<!-- Away Team -->
-<select id="away_team" name="away_team" required>
-  <% locals.teams.forEach(function(team) { %>
-    <option value="<%- team.id %>"><%- team.name %></option>
-  <% }); %>
-</select>
+  <div>
+    <label for="home_score">Stig heimaliðs</label>
+    <input type="number" id="home_score" name="home_score" min="0" max="99" required>
+  </div>
 
-<!-- Away Score -->
-<input type="number" id="away_score" name="away_score" min="0" max="99" required>
+  <div>
+    <label for="away_team">Útilið</label>
+    <select id="away_team" name="away_team" required>
+      <% locals.teams.forEach(function(team) { %>
+        <option value="<%- team.id %>"><%- team.name %></option>
+      <% }); %>
+    </select>
+  </div>
+
+  <div>
+    <label for="away_score">Stig útiliðs</label>
+    <input type="number" id="away_score" name="away_score" min="0" max="99" required>
+  </div>
+
   <button type="submit">Skrá leik</button>
 </form>
+
 
 
 

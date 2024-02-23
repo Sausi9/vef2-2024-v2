@@ -27,8 +27,6 @@ async function setup() {
 // insert query(data.toString('utf-8'))
 
 async function main() {
-  // const games = await query('select * from games');
-  // console.log(games);
   setup();
 }
 

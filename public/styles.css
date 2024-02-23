@@ -2,13 +2,19 @@ html {
   background-color: #f5f5f5;
 }
 
-/* styles.css */
-
-/* Reset default browser styles */
 * {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+}
+
+* a{
+margin: 1rem;
+padding-bottom: 1rem;
+}
+
+* p {
+  padding-bottom: 1rem;
+  margin-left: 1rem;
 }
 
 table {
@@ -27,7 +33,6 @@ table th {
   font-weight: bold;
 }
 
-/* Style the standings table */
 .standings-table {
   width: 100%;
   border-collapse: collapse;
@@ -44,7 +49,6 @@ table th {
   font-weight: bold;
 }
 
-/* Style the login form */
 .login-form {
   max-width: 400px;
   margin: 0 auto;
@@ -82,7 +86,6 @@ table th {
   background-color: #0056b3;
 }
 
-/* Responsive layout */
 @media (width >= 600px) {
   .login-form {
     max-width: 300px;

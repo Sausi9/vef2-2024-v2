@@ -1,6 +1,7 @@
 import express from 'express';
 import passport from 'passport';
-import {  getGames,insertGame,getTeams,getTeamById} from '../lib/db.js';
+import {  getGames,insertGame,getTeams} from '../lib/db.js';
+import { xssSanitizationMiddleware } from '../lib/validation.js';
 
 export const adminRouter = express.Router();
 
@@ -15,13 +16,11 @@ async function adminRoute(req, res) {
   const loggedIn = req.isAuthenticated();
 
   try {
-    const games = await getGames(); // Fetch games from your database
-    const teams = await getTeams(); // Assuming this fetches all teams
+    const games = await getGames();
+    const teams = await getTeams();
 
-    // Format each game's date
     const formattedGames = games.map(game => ({
       ...game,
-      // Format the date using toLocaleDateString with the 'is-IS' locale for Icelandic
       date: new Date(game.date).toLocaleDateString('is-IS'),
     }));
 
@@ -29,12 +28,11 @@ async function adminRoute(req, res) {
       title: 'Admin upplýsingar, mjög leynilegt',
       user,
       loggedIn,
-      games: formattedGames, // Pass the formatted games to the template
-      teams, // Pass teams as is
+      games: formattedGames,
+      teams,
     });
   } catch (error) {
     console.error('Error while fetching games or teams:', error);
-    // Handle error, for example by rendering an error page or sending an error status
     res.status(500).send('Server error occurred.');
   }
 }
@@ -57,7 +55,6 @@ function ensureAdmin(req, res, next) {
   if (req.isAuthenticated() && req.user.admin) {
     return next();
   }
-  // Redirect or show an error if the user is not an admin
   return res.status(403).send('Access Denied: Admins only.');
 }
 
@@ -68,11 +65,9 @@ function skraRoute(req, res) {
 }
 
 async function skraRouteInsert(req, res) {
-  // Extracting form data
   const { date, home_team, home_score, away_team, away_score } = req.body;
 
   try {
-    // Convert scores to integers
     const homeScore = parseInt(home_score, 10);
     const awayScore = parseInt(away_score, 10);
 
@@ -101,7 +96,10 @@ async function skraRouteInsert(req, res) {
 adminRouter.get('/login', indexRoute);
 adminRouter.get('/admin', ensureLoggedIn,ensureAdmin, adminRoute);
 adminRouter.get('/skra', skraRoute);
-adminRouter.post('/admin/skra', skraRouteInsert);
+adminRouter.post('/admin/skra',
+skraRouteInsert,
+xssSanitizationMiddleware('description')
+);
 
 adminRouter.post(
   '/login',
@@ -116,6 +114,7 @@ adminRouter.post(
   (req, res) => {
     res.redirect('/');
   },
+  xssSanitizationMiddleware('description'),
 );
 
 

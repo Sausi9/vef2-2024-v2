@@ -30,7 +30,6 @@ async function leikirRoute(req, res) {
 
   const formattedGames = games.map(game => ({
     ...game,
-    // Format the date using toLocaleDateString with the 'is-IS' locale for Icelandic
     date: new Date(game.date).toLocaleDateString('is-IS'),
   }));
 
